@@ -1,0 +1,213 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Rock, Paper, Scissors - Shoot!</title>
+
+    <script src="https://use.fontawesome.com/5f1f3cb4d3.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+  </head>
+
+  <body>
+
+  
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-offset-1 col-md-8">
+
+          <div class="jumbotron">
+            <div class = "h2 text-center">Let's play Rock, Paper, Scissors</div>
+            <hr>
+            <div class = "row">
+              <div class = "col-md-4">
+                <p class = "text-center">Press [R] for <i class="fa fa-hand-rock-o" aria-hidden="true"></i></p>
+              </div>
+              <div class = "col-md-4">
+                <p class = "text-center">Press [P] for <i class="fa fa-hand-paper-o" aria-hidden="true"></i></p>
+              </div>
+              <div class = "col-md-4">
+                <p class = "text-center">Press [S] for <i class="fa fa-hand-scissors-o" aria-hidden="true"></i></p>
+              </div>
+            </div>
+            <hr>
+            <div class = "row">
+              <div class = "col-md-6">
+                <span id="userInput"><p>You Played :</p></span>
+              </div>
+              <div class = "col-md-6">
+               <span id="computerInput"><p>The Computer Played: </p></span>
+              </div>
+            </div>
+            <div class = "text-center"<span id="winner"></span></div>        
+            <hr>
+            <div class = "row">
+              <div class = "col-md-4">
+                <span id = "wins" class = "h4"><p>Wins: </p></span>
+              </div>
+              <div class = "col-md-4">
+                <span id = "losses" class = "h4"><p>Losses: </p></span>
+              </div>
+              <div class = "col-md-4">
+                <span id = "draws" class = "h4"><p>Draws: </p></span>
+              </div>
+            </div>
+            <hr>
+            <span id = "matchesWon" class = "h3"><p>Matches Won: </p></span>
+            <span id = "matchesLost" class = "h3"><p>Matches Lost: </p></span>
+
+          </div>
+        </div>
+        <div class = "col-md-3 well">
+          <div class = "h5"><u>Rules:</u></div>
+          <ul>
+            <li>Rock beats Scissors</li>
+            <li>Paper beats Rock</li>
+            <li>Scissors beats Paper</li>
+            <li>First to 3 wins Match</li>
+            <li><mark>HAVE FUN!!!</mark></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- We have to put this at the end of our document to ensure the user-text
+         span exists when we try to access it. -->
+    <script type="text/javascript">
+      // Let's start by grabbing a reference to the <span> below.
+      var userTurn = document.getElementById("userInput");
+      var userTurnIndex = 0;
+      var computerTurnIndex = 0;
+      var drawGame = false;
+      var youWin = false;
+      var wins = 0;
+      var losses = 0;
+      var draws = 0;
+      var matchesWon = 0;
+      var matchesLost = 0;
+      var matchComplete = false;
+      var validKeys = ["r", "p", "s"];
+      var keyValues = ["Rock", "Paper", "Scissors"];
+      var turnValue;
+      var ids = ["userInput", "computerInput", "winner", "wins", "losses", "draws", "matchesWon", "matchesLost"];
+
+      var checkValid = function(key) {
+        if (validKeys.includes(key)) {
+          return true 
+        } else {
+        return false
+        }
+      }
+
+      var checkForGameWinner = function(val) {
+        /*
+        if userturn = computer then draw 
+        if u = 0 and c = 1 computer win -1
+        if u = 0 and c = 2 you win -2
+        if u = 1 and c = 0 you win 1
+        if u = 1 and c = 2 computer win -1
+        if u = 2 and c = 0 computer win +2
+        if u = 2 and c = 1 you win 1
+
+        ----Look at patterns to reduce 7 if else statemtns to the following 3
+        if u - c = 0 draw
+        if u - c = 1 or u - c = -2 you win
+        else computer win
+          */
+        if (val === 0) {
+          draws++;
+          drawGame = true;
+        } else if (val === 1 || val === -2) {
+          wins++;
+          youWin = true;
+        } else {
+          losses++;
+          youWin = false;
+        }
+      }
+
+      var checkForMatchWinner = function() {
+        if (wins === 3) {
+          matchesWon++;
+          wins = 0;
+          losses = 0;
+          draws = 0;
+          matchComplete = true;
+        } else if (losses === 3) {
+        matchesLost++;
+        losses = 0;
+        wins = 0;
+        draws = 0;
+        matchComplete = true;
+        }
+      }
+
+      var displayResult = function() {
+        var val = [];
+        //remove old information
+        for (var i = 0; i < ids.length; i++) {
+          document.getElementById(ids[i]).innerHTML = "";
+        }
+        //create an array of new information
+        val[0] = "You Played: " + keyValues[userTurnIndex];
+        val[1] = "Computer Played: " + keyValues[computerTurnIndex];
+
+        if (drawGame) {
+          val[2] = "This Game was a draw";
+          drawGame = false;
+        } else if (youWin) {
+          val[2] = "You Won! " + keyValues[userTurnIndex] + " beats " + keyValues[computerTurnIndex];
+        } else {
+          val[2] = "You Lose! " + keyValues[computerTurnIndex] + " beats " + keyValues[userTurnIndex];
+        }
+
+        val[3] = "Wins: " + wins;
+        val[4] = "Losses: " + losses;
+        val[5] = "Draws: " + draws;
+        val[6] = "Matches Won: " + matchesWon;
+        val[7] = "Matches Lost: " + matchesLost;
+
+        //put new information into the html
+        for (var c = 0; c < val.length; c++) {
+          var para = document.createElement("P");
+          var output = document.createTextNode(val[c]);
+          para.appendChild(output);
+          document.getElementById(ids[c]).appendChild(para);
+        }
+      }
+
+
+      // function to execute on key press
+      document.onkeyup = function () {
+        userTurn.textContent = event.key;
+        //console.log("userTurn.textContent: " + userTurn.textContent);
+
+        if (checkValid(userTurn.textContent)) {
+          computerTurnIndex = Math.floor(Math.random() * 3);
+          userTurnIndex = validKeys.indexOf(userTurn.textContent);
+          turnValue = userTurnIndex - computerTurnIndex;
+          //console.log("turnValue :" + turnValue);
+          checkForGameWinner(turnValue);
+          checkForMatchWinner();
+          displayResult();
+          /***needs work
+
+          if (matchComplete) {
+            var again = confirm("Do You Want to Play Again?");
+          } 
+          ****/
+        } else {
+
+          var para = document.createElement("P");
+          var output = document.createTextNode("Invalid Input");
+          para.appendChild(output);
+          document.getElementById("userInput").appendChild(para);
+
+        }
+
+      }
+      
+    </script>
+  </body>
+</html>
