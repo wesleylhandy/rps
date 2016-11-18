@@ -133,6 +133,14 @@
       var turnValue;
       var ids = ["userInput", "computerInput", "winner", "wins", "losses", "draws", "matchesWon", "matchesLost"];
 
+      //reset game
+      var reset = function() {
+        wins = 0;
+        losses = 0;
+        draws = 0;
+        turns = 0;
+      }
+
       //check to see if user input meets the criteria
       var checkValid = function(key) {
         if (validKeys.includes(key)) {
@@ -211,16 +219,12 @@
       var checkForMatchWinner = function() {
         if (wins === 3) {
           matchesWon++;
-          wins = 0;
-          losses = 0;
-          draws = 0;
-          matchComplete = true;
         } else if (losses === 3) {
-        matchesLost++;
-        losses = 0;
-        wins = 0;
-        draws = 0;
-        matchComplete = true;
+          matchesLost++;
+         }
+        if (wins === 3 || losses === 3 ) {
+          matchComplete = true;
+          reset();
         }
       }
 
