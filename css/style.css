@@ -1,0 +1,52 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  background: url("../images/old_map.png");
+  font-family: 'Bowlby One SC', cursive;
+  color: #333;
+  box-sizing: border-box;
+}
+
+.container {
+  margin: 2em 0 4em 0;
+}
+
+.h2 {
+  text-shadow: 1px 1px 1px #fff, 
+         3px 3px 5px red;
+}
+
+.rps-ico {
+  text-shadow: 1px 1px 1px red;
+}
+
+hr {
+  border: 0.125em solid black;
+}
+
+.jumbotron, .well {
+  border: 2px solid red;
+
+}
+
+#winner {
+  color: red;
+}
+
+.footer {
+
+  padding-top: 0.5em;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 3.75em;
+  color: #333;
+  background-color: #dec697;
+  border-top-style: solid;
+  border-top-color: red;
+  border-top-width: .325em;
+}
