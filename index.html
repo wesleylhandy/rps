@@ -116,7 +116,8 @@
       var previousTurn = {
         indexes: 0,
         user: 0,
-        winner: "none"
+        winner: "none",
+        consecutiveUserWins: 0
       };
       var turns = 0;
       var drawGame = false;
@@ -147,8 +148,8 @@
         based on mathematical research: https://youtu.be/rudzYPHuewc
         the downside is that once the pattern is discerned the user
         can beat the computer every time, so I added a randomizer
-        after a set number of turns                             */
-        if (turns === 1 || previousTurn.winner === "draw" || turns % 6 === 0) {
+        after a set number of turns having lost                    */
+        if (turns === 1 || previousTurn.winner === "draw" || previousTurn.consecutiveUserWins === 2) {
         computerTurnIndex = Math.floor(Math.random() * 3);
 
           //play what wasn't played last time
@@ -191,15 +192,18 @@
           draws++;
           drawGame = true;
           previousTurn.winner = "draw";
+          previousTurn.consecutiveUserWins = 0;
         } else if (val === 1 || val === -2) {
           wins++;
           youWin = true;
           previousTurn.winner = "user";
           previousTurn.user = userTurnIndex;
+          previousTurn.consecutiveUserWins++;
         } else {
           losses++;
           youWin = false;
           previousTurn.winner = "computer";
+          previousTurn.consecutiveUserWins = 0;
         }
       }
 
