@@ -6,6 +6,7 @@
     <script src="https://use.fontawesome.com/5f1f3cb4d3.js"></script>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
     <link href="https://fonts.googleapis.com/css?family=Bowlby+One+SC" rel="stylesheet">
 
     <style>
@@ -110,6 +111,12 @@
       var userTurn = document.getElementById("userInput");
       var userTurnIndex = 0;
       var computerTurnIndex = 0;
+      var previousTurn = {
+        indexes: 0,
+        user: 0,
+        winner: "none"
+      };
+      var turns = 0;
       var drawGame = false;
       var youWin = false;
       var wins = 0;
@@ -131,6 +138,29 @@
         }
       }
 
+      var computerTurn = function() {
+        /*          this code makes the computer behave more humanly
+        based on mathematical research: https://youtu.be/rudzYPHuewc
+        the downside is that once the pattern is discerned the user
+        can beat the computer every time, so I added a randomizer
+        after a set number of turns                             */
+        if (turns === 1 || previousTurn.winner === "draw" || turns % 4 === 0) {
+        computerTurnIndex = Math.floor(Math.random() * 3);
+        } else if (previousTurn.winner === "user") {
+          //play what wasn't played last time
+          if (previousTurn.indexes === 1) {
+          computerTurnIndex = 2;
+          } else if (previousTurn.indexes === 2) {
+            computerTurnIndex = 1;
+          } else {
+            computerTurnIndex = 0;
+          }
+        } else {
+          //play what user played last time
+            computerTurnIndex = previousTurn.user;
+        }
+      }
+
       var checkForGameWinner = function(val) {
         /*
         if userturn = computer then draw 
@@ -149,12 +179,16 @@
         if (val === 0) {
           draws++;
           drawGame = true;
+          previousTurn.winner = "draw";
         } else if (val === 1 || val === -2) {
           wins++;
           youWin = true;
+          previousTurn.winner = "user";
+          previousTurn.user = userTurnIndex;
         } else {
           losses++;
           youWin = false;
+          previousTurn.winner = "computer";
         }
       }
 
@@ -209,8 +243,6 @@
           para.appendChild(output);
           document.getElementById(ids[c]).appendChild(para);
         }
-
-
       }
 
 
@@ -220,13 +252,15 @@
         //console.log("userTurn.textContent: " + userTurn.textContent);
 
         if (checkValid(userTurn.textContent)) {
-          computerTurnIndex = Math.floor(Math.random() * 3);
+          turns++;
+          computerTurn();
           userTurnIndex = validKeys.indexOf(userTurn.textContent);
           turnValue = userTurnIndex - computerTurnIndex;
           //console.log("turnValue :" + turnValue);
           checkForGameWinner(turnValue);
           checkForMatchWinner();
           displayResult();
+          previousTurn.indexes = userTurnIndex + computerTurnIndex;
           /***needs work
 
           if (matchComplete) {
