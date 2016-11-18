@@ -133,6 +133,14 @@
       var turnValue;
       var ids = ["userInput", "computerInput", "winner", "wins", "losses", "draws", "matchesWon", "matchesLost"];
 
+      //reset game
+      var reset = function() {
+          wins = 0;
+          losses = 0;
+          draws = 0;
+          turns = 0;
+      }
+
       //check to see if user input meets the criteria
       var checkValid = function(key) {
         if (validKeys.includes(key)) {
@@ -149,10 +157,12 @@
         the downside is that once the pattern is discerned the user
         can beat the computer every time, so I added a randomizer
         after a set number of turns having lost                    */
-        if (turns === 1 || previousTurn.winner === "draw" || previousTurn.consecutiveUserWins === 2) {
+
+        //randomizer
+        if (turns === 1 || previousTurn.winner === "draw" || previousTurn.consecutiveUserWins >= 2) {
         computerTurnIndex = Math.floor(Math.random() * 3);
 
-          //play what wasn't played last time
+          //play what wasn't played last time if computer lost last round
         } else if (previousTurn.winner === "user") {
 
           //paper beat rock : 1 + 0
@@ -167,7 +177,7 @@
           }
         } else {
 
-          //play what user played last time
+          //play what user played last time if computer won last time
             computerTurnIndex = previousTurn.user;
         }
       }
@@ -211,16 +221,12 @@
       var checkForMatchWinner = function() {
         if (wins === 3) {
           matchesWon++;
-          wins = 0;
-          losses = 0;
-          draws = 0;
           matchComplete = true;
+          reset();
         } else if (losses === 3) {
         matchesLost++;
-        losses = 0;
-        wins = 0;
-        draws = 0;
         matchComplete = true;
+        reset();
         }
       }
 
