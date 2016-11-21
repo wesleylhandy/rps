@@ -1,7 +1,7 @@
 //set global variables
 var turns = 0;
 
-var userTurn = document.getElementById("userInput");
+var userTurn;
 var userTurnIndex = 0;
 var computerTurnIndex = 0;
 var turnValue = userTurnIndex + computerTurnIndex;
@@ -27,7 +27,7 @@ var matchComplete = false;
 //arrays for checking input and forming output
 var validKeys = ["r", "p", "s"];
 var keyValues = ['<i class="fa fa-hand-rock-o" aria-hidden="true"></i>', '<i class="fa fa-hand-paper-o" aria-hidden="true"></i>', '<i class="fa fa-hand-scissors-o" aria-hidden="true"></i>'];
-var ids = ["userInput", "computerInput", "winner", "wins", "losses", "draws", "matchesWon", "matchesLost"];
+var ids = ["#userInput", "#computerInput", "#winner", "#wins", "#losses", "#draws", "#matchesWon", "#matchesLost"];
 
 //reset game to initial values
 var reset = function() {
@@ -128,51 +128,41 @@ var checkForMatchWinner = function() {
 //display values within html/css
 var displayResult = function() {
   var val = [];
-  //remove old information
-  for (var i = 0; i < ids.length; i++) {
-    document.getElementById(ids[i]).innerHTML = "";
-  }
+
   //create an array of new information
   val[0] = keyValues[userTurnIndex];
   val[1] = keyValues[computerTurnIndex];
 
-  for (var b = 0; b < 2; b++) {
-    document.getElementById(ids[b]).innerHTML = val[b];
-  }
-
   if (drawGame) {
-    val[2] = "draw";
+    val[2] = "<p>draw</p>";
     drawGame = false;
   } else if (youWin) {
-    val[2] = "You Won!";
+    val[2] = "<p>You Won!</p>";
   } else {
-    val[2] = "You Lose!";
+    val[2] = "<p>You Lose!</p>";
   }
-  val[3] = "Wins: " + wins;
-  val[4] = "Losses: " + losses;
-  val[5] = "Draws: " + draws;
-  val[6] = "Matches Won: " + matchesWon;
-  val[7] = "Matches Lost: " + matchesLost;
+  val[3] = "<p>Wins: " + wins + "</p>";
+  val[4] = "<p>Losses: " + losses  + "</p>";
+  val[5] = "<p>Draws: " + draws  + "</p>";
+  val[6] = "<p>Matches Won: " + matchesWon  + "</p>";
+  val[7] = "<p>Matches Lost: " + matchesLost + "</p>";
 
   //put new information into the html
-  for (var c = 2; c < val.length; c++) {
-    var para = document.createElement("P");
-    var output = document.createTextNode(val[c]);
-    para.appendChild(output);
-    document.getElementById(ids[c]).appendChild(para);
+  for (var c = 0; c < val.length; c++) {
+    document.querySelector(ids[c]).innerHTML = val[c];
   }
 }
 
 
 // function to execute on key press
 document.onkeyup = function () {
-  userTurn.textContent = event.key;
+  userTurn = event.key;
   //console.log("userTurn.textContent: " + userTurn.textContent);
 
-  if (checkValid(userTurn.textContent)) {
+  if (checkValid(userTurn)) {
     turns++;
     computerTurn();
-    userTurnIndex = validKeys.indexOf(userTurn.textContent);
+    userTurnIndex = validKeys.indexOf(userTurn);
     turnValue = userTurnIndex - computerTurnIndex;
     //console.log("turnValue :" + turnValue);
     checkForGameWinner(turnValue);
@@ -186,10 +176,8 @@ document.onkeyup = function () {
     } 
     ****/
   } else {
-    var para = document.createElement("P");
-    var output = document.createTextNode("Invalid Input");
-    para.appendChild(output);
-    document.getElementById("winner").innerHTML = "";
-    document.getElementById("winner").appendChild(para);
+
+    document.querySelector("#winner").innerHTML = "<p>Invalid Input</p>";
+
   }
 }
