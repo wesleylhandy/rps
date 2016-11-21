@@ -41,7 +41,7 @@ hr {
   padding-top: 0.5em;
   position: absolute;
   bottom: 0;
-  
+  max-width: 100%
   /* Set the fixed height of the footer here */
   height: 3.75em;
   color: #333;
