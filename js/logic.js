@@ -28,6 +28,7 @@ var matchComplete = false;
 var validKeys = ["r", "p", "s"];
 var keyValues = ['<i class="fa fa-hand-rock-o" aria-hidden="true"></i>', '<i class="fa fa-hand-paper-o" aria-hidden="true"></i>', '<i class="fa fa-hand-scissors-o" aria-hidden="true"></i>'];
 var ids = ["#userInput", "#computerInput", "#winner", "#wins", "#losses", "#draws", "#matchesWon", "#matchesLost"];
+var winAnimation = ['"animated bounceInDown"', '"animated fadeInUp"', '"animated rotateInDownRight"'];
 
 //reset game to initial values
 var reset = function() {
@@ -130,16 +131,15 @@ var displayResult = function() {
   var val = [];
 
   //create an array of new information
-  val[0] = keyValues[userTurnIndex];
-  val[1] = keyValues[computerTurnIndex];
-
+    val[0] = keyValues[userTurnIndex];
+    val[1] = keyValues[computerTurnIndex];
   if (drawGame) {
     val[2] = "<p>draw</p>";
     drawGame = false;
   } else if (youWin) {
-    val[2] = "<p>You Won!</p>";
+    val[2] = '<p class=' + winAnimation[userTurnIndex] + '>You Won!</p>';
   } else {
-    val[2] = "<p>You Lose!</p>";
+    val[2] = '<p class=' + winAnimation[computerTurnIndex] + '>You Lost!</p>';
   }
   val[3] = "<p>Wins: " + wins + "</p>";
   val[4] = "<p>Losses: " + losses  + "</p>";
