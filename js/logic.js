@@ -57,6 +57,7 @@ var computerTurn = function() {
     after a set number of turns having lost                    */
   if (turns === 1 || previousTurn.winner === "draw" || previousTurn.consecutiveUserWins === 2) {
   computerTurnIndex = Math.floor(Math.random() * 3);
+  console.log("Since this is either the first game of a match, the last game was a draw, or you have beat the computer two times in a row, the computer made a random selection");
 
     //play what wasn't played last time
   } else if (previousTurn.winner === "user") {
@@ -64,17 +65,21 @@ var computerTurn = function() {
     //paper beat rock : 1 + 0
     if (previousTurn.indexes === 1) {
     computerTurnIndex = 2;
+    console.log("Since you won last game, and you played paper last time, the computer thinks you may play paper again, so it played scissors.");
 
     //rock beat scissors: 0 + 2
     } else if (previousTurn.indexes === 2) {
       computerTurnIndex = 1;
+      console.log("Since you won last game, and you played rock last time, the computer thinks you may play rock again, so it played paper.");
     } else {
       computerTurnIndex = 0;
+      console.log("Since you won last game, and you played scissors, the computer thinks you may play scissors again, so it played rock.");
     }
   } else {
 
     //play what user played last time
       computerTurnIndex = previousTurn.user;
+      console.log("Since the computer won last time, the computer thinks you will play something different, so the computer played what you played last round.")
   }
 }
 
@@ -122,6 +127,7 @@ var checkForMatchWinner = function() {
    }
   if (wins === 3 || losses === 3 ) {
     matchComplete = true;
+    console.log("New Match");
     reset();
   }
 }
@@ -136,10 +142,13 @@ var displayResult = function() {
   if (drawGame) {
     val[2] = "<p>draw</p>";
     drawGame = false;
+    console.log("The game was a draw");
   } else if (youWin) {
     val[2] = '<p class=' + winAnimation[userTurnIndex] + '>You Won!</p>';
+    console.log("You won");
   } else {
     val[2] = '<p class=' + winAnimation[computerTurnIndex] + '>You Lost!</p>';
+    console.log("The Computer Won");
   }
   val[3] = "<p>Wins: " + wins + "</p>";
   val[4] = "<p>Losses: " + losses  + "</p>";
@@ -151,6 +160,7 @@ var displayResult = function() {
   for (var c = 0; c < val.length; c++) {
     document.querySelector(ids[c]).innerHTML = val[c];
   }
+  console.log("---New Game---");
 }
 
 

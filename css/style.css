@@ -43,10 +43,25 @@ hr {
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
-  height: 3.75em;
+  height: 6em;
   color: #333;
   background-color: #dec697;
   border-top-style: solid;
   border-top-color: red;
   border-top-width: .325em;
+}
+
+.footer a:link {
+    text-decoration: none;
+    color: black;
+    font-size: 2em;
+}
+
+.footer a:visited {
+    text-decoration: none;
+    color: black;
+}
+
+.footer a:hover {
+    filter: drop-shadow(0.063em 0.063em 0em red);
 }
